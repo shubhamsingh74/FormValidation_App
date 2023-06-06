@@ -19,6 +19,8 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
+  final formGlobalKey = GlobalKey<FormState>();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
@@ -64,110 +66,113 @@ class _FormPageState extends State<FormPage> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 100,
-                ),
-                const Text(
-                  "Welcome..!",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold),
-                ),
-                const ProfileImage(),
-                CustomTextField(
-                  controller: _nameController,
-                  hintText: "Name",
-                  icon: const Icon(Icons.person),
-                  keyboardType: TextInputType.text,
-                ),
-                CustomTextField(
-                  controller: _userNameController,
-                  hintText: "User Name",
-                  icon: const Icon(Icons.perm_identity_outlined),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-
-                InkWell(
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  child: AbsorbPointer(
-                    child: CustomTextField(
-                      controller: _dateOfBirthController,
-                      hintText: "Date of Birth",
-                      icon: const Icon(Icons.calendar_month_outlined),
-                    ),
+            child: Form(
+              key: formGlobalKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 100,
                   ),
-                ),
-                CustomTextField(
-                  controller: _emailController,
-                  hintText: "Email",
-                  icon: const Icon(Icons.email),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-
-                CustomTextField(
-                  controller: _passwordController,
-                  hintText: "Password",
-                  icon: const Icon(
-                    Icons.lock,
+                  const Text(
+                    "Welcome..!",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold),
                   ),
-                  suffixIcon: const Icon(Icons.remove_red_eye),
-                  keyboardType: TextInputType.number,
-                ),
+                  const ProfileImage(),
+                  CustomTextField(
+                    controller: _nameController,
+                    hintText: "Name",
+                    icon: const Icon(Icons.person),
+                    keyboardType: TextInputType.text,
+                  ),
+                  CustomTextField(
+                    controller: _userNameController,
+                    hintText: "User Name",
+                    icon: const Icon(Icons.perm_identity_outlined),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
 
-                //forget password
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          "Forget Password..!",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ],
-                ),
-
-                //submit button
-                CustomButton(
+                  InkWell(
                     onTap: () {
-                      log("hello");
+                      _selectDate(context);
                     },
-                    text: "Submit"),
-
-                const SizedBox(
-                  height: 60,
-                ),
-
-                //already have an account just login or move to the next page.
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "already have an Account..?",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
+                    child: AbsorbPointer(
+                      child: CustomTextField(
+                        controller: _dateOfBirthController,
+                        hintText: "Date of Birth",
+                        icon: const Icon(Icons.calendar_month_outlined),
+                      ),
                     ),
-                    Text(
-                      " Log In",
-                      style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
+                  ),
+                  CustomTextField(
+                    controller: _emailController,
+                    hintText: "Email",
+                    icon: const Icon(Icons.email),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+
+                  CustomTextField(
+                    controller: _passwordController,
+                    hintText: "Password",
+                    icon: const Icon(
+                      Icons.lock,
                     ),
-                  ],
-                )
-              ],
+                    suffixIcon: const Icon(Icons.remove_red_eye),
+                    keyboardType: TextInputType.number,
+                  ),
+
+                  //forget password
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            "Forget Password..!",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ],
+                  ),
+
+                  //submit button
+                  CustomButton(
+                      onTap: () {
+                        log("hello");
+                      },
+                      text: "Submit"),
+
+                  const SizedBox(
+                    height: 60,
+                  ),
+
+                  //already have an account just login or move to the next page.
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "already have an Account..?",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        " Log In",
+                        style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

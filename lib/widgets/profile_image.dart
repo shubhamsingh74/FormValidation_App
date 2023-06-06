@@ -23,7 +23,6 @@ class _ProfileImageState extends State<ProfileImage> {
       log('Failed to pick image: $e');
     }
   }
-
   // void clearImage() {
   //   setState(() {
   //     image = null;
@@ -34,16 +33,20 @@ class _ProfileImageState extends State<ProfileImage> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
         height: 100,
-        width: 90,
+        width: 100,
         decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
         ),
         child: image == null
             ? const Icon(Icons.ac_unit_sharp)
-            : Image.file(image!),
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.file(
+                  fit:BoxFit.fill,
+                  image!,
+                )),
       ),
       Positioned(
         bottom: 7,
