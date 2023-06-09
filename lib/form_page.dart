@@ -1,14 +1,11 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_project/constants/string_constants.dart';
 import 'package:form_project/widgets/custom_buttons.dart';
 import 'package:form_project/widgets/custom_textfields.dart';
+import 'package:form_project/widgets/passwordtextformfield.dart';
 import 'package:form_project/widgets/profile_image.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class FormPage extends StatefulWidget {
@@ -20,7 +17,6 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final formGlobalKey = GlobalKey<FormState>();
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _dateOfBirthController = TextEditingController();
@@ -48,6 +44,25 @@ class _FormPageState extends State<FormPage> {
     }
   }
 
+  //validation for the name
+  bool isValidName ({required String value}){
+    final nameRegExp =
+        RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    return nameRegExp.hasMatch(value);
+  }
+
+  // //validation for the mobile number
+  // bool get isValidPhone {
+  //   final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+  //   return phoneRegExp.hasMatch(this as String );
+  // }
+  //
+  // //validation for the email id
+  // bool get isValidEmail {
+  //   final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  //   return emailRegExp.hasMatch(this as String);
+  // }
+
   @override
   void dispose() {
     super.dispose();
@@ -65,7 +80,7 @@ class _FormPageState extends State<FormPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+            padding:  EdgeInsets.symmetric(horizontal: 25),
             child: Form(
               key: formGlobalKey,
               child: Column(
@@ -75,24 +90,80 @@ class _FormPageState extends State<FormPage> {
                     height: 100,
                   ),
                   const Text(
-                    "Welcome..!",
+                    "Welcome",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 35,
                         fontWeight: FontWeight.bold),
                   ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+
                   const ProfileImage(),
+
                   CustomTextField(
                     controller: _nameController,
                     hintText: "Name",
                     icon: const Icon(Icons.person),
                     keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter name";
+                      } else {
+                        //call function to check password
+                        bool result = isValidName(value: value);
+                        if (result) {
+                          // create account event
+                          return null;
+                        } else {
+                          return "Enter valid name";
+                        }
+                      }
+                    },
                   ),
+
                   CustomTextField(
                     controller: _userNameController,
-                    hintText: "User Name",
-                    icon: const Icon(Icons.perm_identity_outlined),
+                    hintText: "Mobile number",
+                    icon: const Icon(Icons.call),
+                    keyboardType: TextInputType.number,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) {
+                    //     return "Please enter mobile number";
+                    //   } else {
+                    //     //call function to check password
+                    //     bool result = isValidPhone;
+                    //     if (result) {
+                    //       // create account event
+                    //       return null;
+                    //     } else {
+                    //       return "Enter valid mobile number";
+                    //     }
+                    //   }
+                    // },
+                  ),
+
+                  CustomTextField(
+                    controller: _emailController,
+                    hintText: "Email",
+                    icon: const Icon(Icons.email),
                     keyboardType: TextInputType.emailAddress,
+                    // validator: (value) {
+                    //   if (value!.isEmpty) {
+                    //     return "Please enter email id";
+                    //   } else {
+                    //     //call function to check password
+                    //     bool result = isValidEmail;
+                    //     if (result) {
+                    //       // create account event
+                    //       return null;
+                    //     } else {
+                    //       return "Enter valid email id";
+                    //     }
+                    //   }
+                    // },
                   ),
 
                   InkWell(
@@ -102,26 +173,15 @@ class _FormPageState extends State<FormPage> {
                     child: AbsorbPointer(
                       child: CustomTextField(
                         controller: _dateOfBirthController,
-                        hintText: "Date of Birth",
+                        hintText: "Date of birth",
                         icon: const Icon(Icons.calendar_month_outlined),
                       ),
                     ),
                   ),
-                  CustomTextField(
-                    controller: _emailController,
-                    hintText: "Email",
-                    icon: const Icon(Icons.email),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
 
-                  CustomTextField(
+                  PasswordField(
                     controller: _passwordController,
                     hintText: "Password",
-                    icon: const Icon(
-                      Icons.lock,
-                    ),
-                    suffixIcon: const Icon(Icons.remove_red_eye),
-                    keyboardType: TextInputType.number,
                   ),
 
                   //forget password
@@ -131,7 +191,7 @@ class _FormPageState extends State<FormPage> {
                       InkWell(
                           onTap: () {},
                           child: const Text(
-                            "Forget Password..!",
+                            "Forget Password",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
@@ -143,7 +203,7 @@ class _FormPageState extends State<FormPage> {
                   //submit button
                   CustomButton(
                       onTap: () {
-                        log("hello");
+                        formGlobalKey.currentState!.validate();
                       },
                       text: "Submit"),
 
@@ -156,14 +216,14 @@ class _FormPageState extends State<FormPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "already have an Account..?",
+                        "Already have an account?",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        " Log In",
+                        " Log in",
                         style: TextStyle(
                             color: Colors.blueAccent,
                             fontSize: 14,
