@@ -27,7 +27,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: TextFormField(
         controller: widget.controller,
         validator: widget.validator,
@@ -36,12 +36,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: Colors.transparent, width: 1),
+            borderSide: const BorderSide(color: Color(0xffF7FAF7), width: 0),
           ),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: const Color(0xffF7FAF7),
           hintText: widget.hintText,
           prefixIcon: widget.icon,
           // suffixIcon: suffixIcon,

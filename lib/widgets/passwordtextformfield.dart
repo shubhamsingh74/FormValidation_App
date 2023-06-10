@@ -41,7 +41,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: TextFormField(
         controller: widget.controller,
 
@@ -65,14 +65,14 @@ class _PasswordFieldState extends State<PasswordField> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(color: Colors.transparent, width: 0),
+            borderSide: const BorderSide(color:  Color(0xffF7FAF7), width: 1),
           ),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: const Color(0xffF7FAF7),
           hintText: widget.hintText,
-          prefixIcon: const Icon(Icons.key),
+          prefixIcon: const Icon(Icons.lock),
           suffixIcon: IconButton(
             icon: Icon(
                 _passwordVisible ? Icons.visibility : Icons.visibility_off),
